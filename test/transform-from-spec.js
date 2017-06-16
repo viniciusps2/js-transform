@@ -1,8 +1,8 @@
 const {get} = require('lodash')
-const {transformFrom, mapFrom} = require('../lib')
+const {transformFrom, mapFrom} = require('../lib/transform-from')
 
-describe('test-spec', () => {
-  it('when .. should', function () {
+describe('json-transform transform-from spec', () => {
+  it('should transform from', function () {
     const response = {
       'ORG': 'salesorg',
       'WERKS': 'SJK1',
@@ -77,16 +77,16 @@ function transformResponse () {
     parts: [{
       $item: 'item',
       index: {path: 'KPOSN', fn: itemIndex},
-      partNumber: {path: 'MATERIAL', fn: toUpperCase},
+      partNumber: {path: 'MATERIAL', fn: toUpperCase}
     }],
     items: mapFrom('T_ITEM.item', {
       index: {path: 'KPOSN', fn: Number},
-      ecode: {path: 'MATERIAL', fn: toUpperCase},
+      ecode: {path: 'MATERIAL', fn: toUpperCase}
     }),
     things: mapFrom('THINGS.item', ({item, parent, index}) => ({
       'pos': item.POS,
       'number': item.NUMBER,
-      'concat': item.NUMBER + '-' + get(parent, `T_ITEM.item[${index}].MATERIAL`),
+      'concat': item.NUMBER + '-' + get(parent, `T_ITEM.item[${index}].MATERIAL`)
     })),
     notes: mapFrom('TEXT', ({item}) => {
       return {content: item}
@@ -96,4 +96,3 @@ function transformResponse () {
     }
   })
 }
-
