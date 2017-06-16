@@ -9,11 +9,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^4.0.0",
-    "mocha": "^3.4.2",
-    "xml2js": "^0.4.17"
+    "chai": "4.0.0",
+    "mocha": "3.4.2"
   },
   "dependencies": {
-    "js-xsd": "git+https://github.com/viniciusps2/js-xsd.git"
+    "js-xsd": "git+https://github.com/viniciusps2/js-xsd.git",
+    "xml2js": "0.4.17",
+    "lodash": "4.17.4"
   }
 }
