@@ -1,5 +1,5 @@
 const {get} = require('lodash')
-const {transformFrom, mapFrom} = require('../lib/transform-from')
+const {transformFrom, mapFrom} = require('../../lib/js-transform/transform-from')
 
 describe('json-transform transform-from spec', () => {
   it('should transform from', function () {

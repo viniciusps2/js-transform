@@ -1,5 +1,5 @@
 const {get} = require('lodash')
-const {transformTo, mapTo} = require('../lib')
+const {transformTo, mapTo} = require('../../lib/js-transform/transform-to')
 
 describe('json-transform transform-to spec', () => {
   it('should transform to', function () {
