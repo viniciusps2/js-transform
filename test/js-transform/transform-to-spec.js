@@ -46,25 +46,25 @@ function transformRequest () {
       address: 'ADDR',
       city: 'CITY'
     },
-  // parts: [{
-  //   $item: 'item',
-  //   index: {path: 'KPOSN', fn: itemIndex},
-  //   partNumber: {path: 'MATERIAL', fn: toUpperCase},
-  // }],
-  // items: mapTo('T_ITEM.item', {
-  //   index: {path: 'KPOSN', fn: itemIndex},
-  //   ecode: {path: 'MATERIAL', fn: toUpperCase},
-  // }),
-  // things: mapTo('THINGS.item', ({item, parent, index}) => ({
-  //   'POS': itemIndex({index}),
-  //   'NUMBER': item.number,
-  //   'NUMBERCONCAT': item.number + '-' + get(parent, `items[${index}].ecode`),
-  // })),
-  // notes: mapTo('TEXT', ({item}) => {
-  //   return item.content
-  // }),
-  // description: ({res, child}) => {
-  //   res['DESCR'] = child.text.split(', ')
-  // }
+    parts: [{
+      $item: 'item',
+      index: {path: 'KPOSN', fn: itemIndex},
+      partNumber: {path: 'MATERIAL', fn: toUpperCase}
+    }],
+    items: mapTo('T_ITEM.item', {
+      index: {path: 'KPOSN', fn: itemIndex},
+      ecode: {path: 'MATERIAL', fn: toUpperCase}
+    }),
+    things: mapTo('THINGS.item', ({item, parent, index}) => ({
+      'POS': itemIndex({index}),
+      'NUMBER': item.number,
+      'NUMBERCONCAT': item.number + '-' + get(parent, `items[${index}].ecode`)
+    })),
+    notes: mapTo('TEXT', ({item}) => {
+      return item.content
+    }),
+    description: ({res, child}) => {
+      res['DESCR'] = child.text.split(', ')
+    }
   })
 }
