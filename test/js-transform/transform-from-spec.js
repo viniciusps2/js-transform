@@ -1,9 +1,9 @@
-const {get} = require('lodash')
+const {get} = require('../../lib/js-transform/utils')
 const {transformFrom, mapFrom} = require('../../lib/js-transform/transform-from')
 
 describe('json-transform transform-from spec', () => {
-  it('should transform from', function () {
-    const response = {
+  it.only('should transform from', function () {
+    const response = {'ROOTELEMENT': {
       'ORG': 'salesorg',
       'WERKS': 'SJK1',
       'K': {
@@ -55,7 +55,7 @@ describe('json-transform transform-from spec', () => {
         'jjj',
         'bbb'
       ]
-    }
+    }}
 
     const res = transformResponse()(response)
     console.log('res', JSON.stringify(res, null, 2))
@@ -64,15 +64,18 @@ describe('json-transform transform-from spec', () => {
 
 function transformResponse () {
   const itemIndex = (value, index) => (index + 1) * 100
-  const toUpperCase = (value) => value && value.toUpperCase()
+  const toUpperCase = (value) => value && (value + '').toUpperCase()
 
   return transformFrom({
-    salesOrganization: 'ORG',
+    $parent: 'ROOTELEMENT',
+
+    salesOrganization: {path: 'ORG', fn: toUpperCase},
     plant: 'WERKS',
     shipTo: {
       $parent: 'K',
       address: 'ADDR',
-      city: 'CITY'
+      city: 'CITY',
+      state: {path: 'STA', default: 'SPP'}
     },
     parts: [{
       $item: 'item',
@@ -86,13 +89,13 @@ function transformResponse () {
     things: mapFrom('THINGS.item', ({item, parent, index}) => ({
       'pos': item.POS,
       'number': item.NUMBER,
-      'concat': item.NUMBER + '-' + get(parent, `T_ITEM.item[${index}].MATERIAL`)
+      'concat': item.NUMBER + '-' + get(parent, `ROOTELEMENT.T_ITEM.item[${index}].MATERIAL`)
     })),
     notes: mapFrom('TEXT', ({item}) => {
       return {content: item}
     }),
     description: ({res, parent}) => {
-      res['description'] = parent.DESCR.join(', ')
+      res['description'] = parent.ROOTELEMENT.DESCR.join(', ')
     }
   })
 }

@@ -13,11 +13,7 @@
     "mocha": "3.4.2"
   },
   "dependencies": {
-    "babel-core": "^6.25.0",
     "js-xsd": "git+https://github.com/viniciusps2/js-xsd.git",
-    "lodash": "4.17.4",
-    "tape": "^4.6.3",
-    "xml-js": "^1.3.2",
-    "xml2js": "0.4.17"
+    "xml-js": "1.3.2",
   }
 }

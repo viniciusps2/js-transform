@@ -2,7 +2,7 @@ const {get} = require('lodash')
 const {transformTo, mapTo} = require('../../lib/js-transform/transform-to')
 
 describe('json-transform transform-to spec', () => {
-  it.only('should transform to', function () {
+  it('should transform to', function () {
     const data = {
       plant: 'SJK1',
       salesOrganization: 'salesorg',
@@ -31,17 +31,20 @@ describe('json-transform transform-to spec', () => {
 
     const res = transformRequest()(data)
     console.log(' res',res)
+    console.log(' res',res.get('ROOTELEMENT'))
     // console.log('res', JSON.stringify(res, null, 2))
   })
 })
 
 function transformRequest () {
   const itemIndex = (value, index) => (index + 1) * 100
-  const toUpperCase = (value) => value && value.toUpperCase()
+  const toUpperCase = (value) => value && (value + '').toUpperCase()
 
-  const fieldsSequence = ['ADDR', 'ORG', 'WERKS']
+  const fieldsSequence = ['ROOTELEMENT.DESCR', 'ROOTELEMENT.T_ITEM', 'ROOTELEMENT.K', 'ROOTELEMENT.ORG', 'ROOTELEMENT.WERKS', 'ROOTELEMENT.CITY', 'ROOTELEMENT.T_ITEM.item.KPOSN', 'ROOTELEMENT.T_ITEM.item.MATERIAL']
+  // let fieldsSequence
 
   return transformTo({
+    $parent: 'ROOTELEMENT',
     salesOrganization: 'ORG',
     plant: 'WERKS',
     shipTo: {
@@ -63,11 +66,11 @@ function transformRequest () {
       'NUMBER': item.number,
       'NUMBERCONCAT': item.number + '-' + get(parent, `items[${index}].ecode`)
     })),
-    // notes: mapTo('TEXT', ({item}) => {
-    //   return item.content
-    // }),
-    // description: ({res, child}) => {
-    //   res['DESCR'] = child.text.split(', ')
-    // }
+    notes: mapTo('TEXT', ({item}) => {
+      return item.content
+    }),
+    description: ({res, child}) => {
+      res['ROOTELEMENT']['DESCR'] = child.text.split(', ')
+    }
   }, {fieldsSequence})
 }
